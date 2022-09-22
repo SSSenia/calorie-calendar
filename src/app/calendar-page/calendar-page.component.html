@@ -1,0 +1,35 @@
+<header>
+    <div class="buttons">
+        <button class="setup" [routerLink]="['/setup']">
+            <mat-icon fontSet="material-icons-outlined">brightness_7</mat-icon>
+        </button>
+        <button class="month">
+            August <mat-icon fontSet="material-icons-outlined">expand_more</mat-icon>
+        </button>
+    </div>
+
+    <div class="week">
+        <div class="kcal" *ngFor="let i of kcalDays">{{i}}</div>
+        <div class="day" *ngFor="let i of days">{{i}}</div>
+        <div class="week-day" *ngFor="let i of weekDays">{{i}}</div>
+    </div>
+</header>
+<div class="wrapper">
+    <div class="time-column">
+        <div class="time" *ngFor="let i of time">{{i + ':00'}}</div>
+    </div>
+    <div class="food">
+        <div class="food-day" *ngFor="let i of food; index as index">
+            <div class="food-time" *ngFor="let j of i">
+                <div class="select filled" *ngIf="getRand(); else empty">
+                    <div class="title">some text</div>
+                    <div class="kcal">{{index*100}}</div>
+                </div>
+                <ng-template #empty>
+                    <div class="select empty">
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

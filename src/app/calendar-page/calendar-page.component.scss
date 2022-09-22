@@ -1,0 +1,163 @@
+$grey: #D8D5D5;
+
+header {
+    display: grid;
+    grid-template-columns: 15vw auto;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 10px;
+    border-bottom: 1px solid grey;
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+    z-index: 1;
+    background: white;
+
+    button {
+        border: none;
+        background: none;
+        border-radius: 7px;
+
+        &:hover {
+            background: #dbdbdb;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        .setup {
+            padding: 3px;
+            width: 40px;
+            height: 40px;
+
+            mat-icon {
+                width: 33px;
+                height: 33px;
+                font-size: 33px;
+                transform: rotate(-22.5deg);
+            }
+        }
+
+        .month {
+            display: flex;
+            align-items: center;
+
+            mat-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 20px;
+            }
+        }
+    }
+
+    .week {
+        display: grid;
+        grid-template-columns: repeat(7, calc(100% / 7));
+
+        div {
+            border-left: 1px solid $grey;
+            text-align: center;
+
+            &:nth-child(7n-6) {
+                border-left: none;
+            }
+        }
+    }
+}
+
+.wrapper {
+    text-align: center;
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    margin-top: 83px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 15vw auto;
+
+    .time-column {
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 16px;
+        color: #413F3F;
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: space-around;
+    }
+
+    .food {
+        display: grid;
+        grid-template-columns: repeat(6, calc(100% / 7)) calc(100% / 7 + 1px);
+
+        .food-day {
+            display: flex;
+            flex-direction: column;
+
+            &:last-child {
+                border-right: 1px solid $grey;
+            }
+        }
+
+        .food-time {
+            border-top: 1px solid $grey;
+            border-left: 1px solid $grey;
+
+            &:nth-child(25n-0) {
+                border-bottom: 1px solid $grey;
+            }
+
+            position: relative;
+            aspect-ratio: 1 / 1;
+
+            .select {
+                user-select: none;
+                position: absolute;
+                display: block;
+                top: 2px;
+                bottom: 2px;
+                right: 2px;
+                left: 2px;
+                aspect-ratio: 1 / 1;
+
+                &:hover {
+                    background: #799cf49d;
+                }
+
+                &:active {
+                    background: #607dc4;
+                }
+            }
+
+            .filled {
+                border: 0;
+                background: #799CF4;
+                font-size: 3vw;
+                line-height: 3vw;
+                color: #FFFFFF;
+                text-align: left;
+                padding: 2px;
+                max-height: calc(100% - 4px);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .title {
+                    font-weight: 400;
+                }
+
+                .kcal {
+                    font-style: normal;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+}
