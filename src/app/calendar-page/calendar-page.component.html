@@ -3,9 +3,14 @@
         <button class="setup" [routerLink]="['/setup']">
             <mat-icon fontSet="material-icons-outlined">brightness_7</mat-icon>
         </button>
-        <button class="month">
-            August <mat-icon fontSet="material-icons-outlined">expand_more</mat-icon>
-        </button>
+        <mat-form-field class="month" appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix class="suffix" [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
     </div>
 
     <div class="week">

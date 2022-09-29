@@ -1,1 +1,42 @@
-<p>edit-meal-page works!</p>
+<div class="wrapper">
+    <button class="cancel">Cancel</button>
+    <h1 class="title">Edit meal</h1>
+    <form class="form-all-params" [formGroup]="dinnerParams" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title">
+        </mat-form-field>
+        <div class="kcal-time">
+            <mat-form-field appearance="fill">
+                <mat-label>Kcal</mat-label>
+                <input matInput type="text" formControlName="kcal">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Time</mat-label>
+                <input matInput type="text" formControlName="time">
+            </mat-form-field>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Fats (gm)</mat-label>
+            <input matInput type="text" formControlName="fats">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Proteins (gm)</mat-label>
+            <input matInput type="text" formControlName="proteins">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Carbohydrates (gm)</mat-label>
+            <input matInput type="text" formControlName="carbohydrates">
+        </mat-form-field>
+        <div class="label">Image</div>
+        <div class="image-drop-container" [class]="classForDrop">
+            <div class="image-drop-overlay">
+                <mat-icon>perm_media</mat-icon>
+            </div>
+            <img class="image" [appImageUpload]="selectedImage" src="" alt="">
+            <input class="image-drop" type="file" formControlName="image" (change)="onFileSelected($event)"
+                (dragover)="classForDrop = 'over'" (dragleave)="classForDrop = ''" (drop)="classForDrop = ''">
+        </div>
+        <button class="submit" type="submit">Save meal</button>
+    </form>
+</div>

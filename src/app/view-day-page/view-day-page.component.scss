@@ -1,0 +1,103 @@
+.wrapper {
+    margin: auto;
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    max-width: 98vmin;
+    font-weight: 400;
+
+    .back {
+        padding: 0;
+        background: none;
+        border: none;
+        font-size: 5vmin;
+        line-height: 5vmin;
+        padding: 2vmin;
+        border-radius: 6vmin;
+        color: #000000;
+
+        &:hover {
+            background: #eeeeee;
+        }
+
+        &:active {
+            background: #dbdbdb;
+        }
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 8vmin;
+        line-height: 8vmin;
+        color: #000000;
+    }
+
+    .data {
+        display: flex;
+        flex-direction: column;
+        margin: 0 5.5vmin;
+
+        h2 {
+            font-size: 4.5vmin;
+            line-height: 4.5vmin;
+            color: #000000;
+            margin: 0;
+        }
+
+        .value {
+            font-size: 5vmin;
+            line-height: 5vmin;
+            color: #000000;
+            padding: 2.5vmin 0;
+            margin: 2.5vmin 0;
+            border-bottom: 1px solid gray;
+        }
+    }
+
+    .meals {
+        display: flex;
+        flex-direction: column;
+
+        .meal {
+            background: #799CF4;
+            border: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 3vmin 0;
+            height: 16vmin;
+            padding: 1vmin;
+            z-index: 1;
+
+            &:hover {
+                background: #6c8bda;
+            }
+
+            &:active {
+                background: #5b76b9;
+            }
+
+            .title {
+                text-align: left;
+                font-size: 4vmin;
+                line-height: 4vmin;
+            }
+
+            .params {
+                display: flex;
+                justify-content: space-between;
+                font-weight: 700;
+
+                .kcal {
+                    font-size: 4vmin;
+                    line-height: 4vmin;
+                }
+
+                .time {
+                    font-size: 4.5vmin;
+                    line-height: 4.5vmin;
+                }
+            }
+        }
+    }
+}
