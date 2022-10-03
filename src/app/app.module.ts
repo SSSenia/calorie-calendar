@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,7 @@ import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { ViewDayPageComponent } from './view-day-page/view-day-page.component';
 import { SharedModule } from './shared/shared.module';
 import { MealModule } from './meal/meal.module';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import 'hammerjs'
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    MealModule
+    MealModule,
+    HammerModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-UA' }],
   bootstrap: [AppComponent]

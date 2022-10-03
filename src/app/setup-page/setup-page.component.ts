@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
@@ -20,7 +21,8 @@ export class SetupPageComponent implements OnInit {
   validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
   constructor(
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class SetupPageComponent implements OnInit {
     const allParams = this.allParams.value;
     delete allParams.bodyParams;
     this.calendarService.setProfile(Object.assign(bodyParams, allParams));
+    this.router.navigate(['/calendar'])
   }
 
   calculateRate() {

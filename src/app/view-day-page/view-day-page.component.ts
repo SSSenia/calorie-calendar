@@ -24,7 +24,7 @@ export class ViewDayPageComponent implements OnInit {
   }
 
   count(day: IDay, type: string): number {
-    return day.meals.reduce((prev, current: any) => current ? prev + current[type] : prev, 0)
+    return day.meals.reduce((prev, current: any) => current ? prev + +current[type] : prev, 0)
   }
 
   formatDate(date: Date) {

@@ -14,8 +14,18 @@ export class NewMealPageComponent implements OnInit {
   time!: number;
   selectedImage: null | string = null;
   classForDrop = false;
+
   validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
-  dinnerParams!: FormGroup;
+
+  dinnerParams: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    kcal: new FormControl('', this.validators),
+    time: new FormControl('', this.validators.concat([
+      (control: AbstractControl) => +control.value < 24 && +control.value >= 0 ? null : { passwordStrength: true }])),
+    fats: new FormControl('', this.validators),
+    proteins: new FormControl('', this.validators),
+    carbohydrates: new FormControl('', this.validators)
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -24,19 +34,16 @@ export class NewMealPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dinnerParams = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      kcal: new FormControl('', this.validators),
-      time: new FormControl('', this.validators.concat([
-        (control: AbstractControl) => +control.value < 24 && +control.value >= 0 ? null : { passwordStrength: true }])),
-      fats: new FormControl('', this.validators),
-      proteins: new FormControl('', this.validators),
-      carbohydrates: new FormControl('', this.validators)
-    });
     const snapshot = this.route.snapshot.queryParams;
-    this.date = new Date(snapshot['date']);
+    this.date = new Date(this.calendarService.formatDate(new Date(snapshot['date'])));
     this.time = snapshot['time'];
-    this.dinnerParams.patchValue({ time: this.time });
+    console.log(snapshot);
+    
+    if(this.date instanceof Date && !isNaN(+this.date) && typeof +this.time == 'number' && this.time < 24 && this.time >= 0){
+      this.dinnerParams.patchValue({ time: this.time });
+    }
+    else this.router.navigate(['/calendar'])
+    
   }
 
   onSubmit() {
@@ -46,15 +53,10 @@ export class NewMealPageComponent implements OnInit {
     }
   }
 
-  isFileImage(file: File) {
-    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/svg'];
-    return file && acceptedImageTypes.includes(file['type'])
-  }
-
   onFileSelected(event: any) {
     let file = event.target.files[0];
     let reader = new FileReader();
-    if (this.isFileImage(file)) {
+    if (this.calendarService.isFileImage(file)) {
       reader.onload = (e) => {
         if (e.target && typeof e.target!.result == 'string') {
           this.selectedImage = e.target.result;

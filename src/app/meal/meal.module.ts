@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule,
     RouterModule.forChild([
+      { path: '', redirectTo: '/calendar', pathMatch: 'full' },
       { path: 'edit', component: EditMealPageComponent },
       { path: 'view', component: ViewMealPageComponent },
       { path: 'new', component: NewMealPageComponent }

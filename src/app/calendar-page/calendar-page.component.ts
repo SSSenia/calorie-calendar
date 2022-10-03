@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, of, Subscription, tap } from 'rxjs';
 import { IDay } from '../shared/interfaces/day';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
@@ -14,14 +14,14 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
 
   kcalDays!: number[];
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  profile$!: BehaviorSubject<IProfile>;
-  dateNow = new Date(this.calendarService.formatDate(new Date()));
-
-  subDate!: Subscription;
-
   time: number[] = [];
-  days: IDay[] = [];
+
+  profile$!: Observable<IProfile>;
+  days$!: Observable<IDay[]>;
+  
+  subDate!: Subscription;
+  
+  dateNow = new Date(this.calendarService.formatDate(new Date()));
 
   form: FormGroup = new FormGroup({
     date: new FormControl(this.dateNow)
@@ -46,13 +46,24 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   }
 
   changeWeek(newDate: Date) {
-    this.days = this.calendarService.getWeek(newDate);
-    this.kcalDays = this.days
-      .map((day) => day.meals.reduce(
-        (sum, current) => sum + +(current ? current.kcal : 0), 0));
+    this.days$ = this.calendarService.getWeek(newDate).pipe(
+      tap((value) => {
+        this.kcalDays = value
+          .map((day) => day.meals.reduce(
+            (sum, current) => sum + +(current ? current.kcal : 0), 0));
+      })
+    );
   }
 
   formatDate(date: Date) {
     return this.calendarService.formatDate(date);
+  }
+
+  onSwipe(side: string) {
+    const oneWeek = 86400000 * 7;
+    if (side == 'right')
+      this.form.patchValue({ date: new Date(+this.form.value.date - oneWeek) })
+    if (side == 'left')
+      this.form.patchValue({ date: new Date(+this.form.value.date + oneWeek) })
   }
 }

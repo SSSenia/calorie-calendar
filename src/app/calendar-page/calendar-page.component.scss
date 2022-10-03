@@ -135,6 +135,13 @@ header {
                 background: #799CF4;
                 color: white;
             }
+
+            .current {
+                border-radius: 50%;
+                height: 4.5vmin;
+                aspect-ratio: 1 / 1;
+                border: 2px solid #799CF4;
+            }
         }
     }
 }

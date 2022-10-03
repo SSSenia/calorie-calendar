@@ -1,51 +1,54 @@
-<header *ngIf="profile$ | async as profile">
-    <form class="buttons" [formGroup]="form">
-        <button class="setup" [routerLink]="['/setup']">
-            <mat-icon fontSet="material-icons-outlined">brightness_7</mat-icon>
-        </button>
-        <mat-form-field class="month" appearance="fill">
-            <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date">
-            <mat-datepicker-toggle matSuffix class="suffix" [for]="picker">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </form>
-
-    <div class="week">
-        <div class="column" *ngFor="let i of days; index as ind" [routerLink]="['/view-day']"
-            [queryParams]="{date: formatDate(i.date)}">
-            <div class="kcal"
-                [ngStyle]="{color: kcalDays[ind] < profile.minKcal ? '#F5D45E' : kcalDays[ind] > profile.maxKcal ? '#F47981' : '#799CF4'}">
-                <p>{{ kcalDays[ind]? kcalDays[ind]: ''}}</p>
-            </div>
-            <div class="day">
-                <p [ngClass]="+dateNow == +i.date ? 'now' : ''">{{i.date.getDate()}}</p>
-            </div>
-            <div class="week-day">
-                <p>{{weekDays[i.date.getDay()]}}</p>
+<div *ngIf="days$ | async as days">
+    <header *ngIf="profile$ | async as profile">
+        <form class="buttons" [formGroup]="form">
+            <button class="setup" [routerLink]="['/setup']">
+                <mat-icon fontSet="material-icons-outlined">brightness_7</mat-icon>
+            </button>
+            <mat-form-field class="month" appearance="fill">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-datepicker-toggle matSuffix class="suffix" [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </form>
+    
+        <div class="week">
+            <div class="column" *ngFor="let i of days; index as ind" [routerLink]="['/view-day']"
+                [queryParams]="{date: formatDate(i.date)}">
+                <div class="kcal"
+                    [ngStyle]="{color: kcalDays[ind] < profile.minKcal ? '#F5D45E' : kcalDays[ind] > profile.maxKcal ? '#F47981' : '#799CF4'}">
+                    <p>{{ kcalDays[ind]? kcalDays[ind]: ''}}</p>
+                </div>
+                <div class="day">
+                    <p [ngClass]="(+dateNow == +i.date ? 'now' : '') + ' '+ (+i.date == +form.value.date ? 'current' : '')">
+                        {{i.date.getDate()}}</p>
+                </div>
+                <div class="week-day">
+                    <p>{{weekDays[i.date.getDay()]}}</p>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-<div class="wrapper">
-    <div class="time-column">
-        <div class="time" *ngFor="let i of time">{{i + ':00'}}</div>
-    </div>
-    <div class="food">
-        <div class="food-day" *ngFor="let day of days; index as dayIndex">
-            <div class="food-time" *ngFor="let time of day.meals; index as timeIndex">
-                <div class="select filled" *ngIf="time; else empty" [routerLink]="['/meal', 'view']"
-                    [queryParams]="{date:formatDate(day.date),time:timeIndex}">
-                    <div class="title">{{time.title}}</div>
-                    <div class="kcal">{{time.kcal}}</div>
-                </div>
-                <ng-template #empty>
-                    <div class="select empty" [routerLink]="['/meal', 'new']"
+    </header>
+    <div class="wrapper" (swiperight)="onSwipe('right')" (swipeleft)="onSwipe('left')">
+        <div class="time-column">
+            <div class="time" *ngFor="let i of time">{{i + ':00'}}</div>
+        </div>
+        <div class="food">
+            <div class="food-day" *ngFor="let day of days; index as dayIndex">
+                <div class="food-time" *ngFor="let time of day.meals; index as timeIndex">
+                    <div class="select filled" *ngIf="time; else empty" [routerLink]="['/meal', 'view']"
                         [queryParams]="{date:formatDate(day.date),time:timeIndex}">
+                        <div class="title">{{time.title}}</div>
+                        <div class="kcal">{{time.kcal}}</div>
                     </div>
-                </ng-template>
+                    <ng-template #empty>
+                        <div class="select empty" [routerLink]="['/meal', 'new']"
+                            [queryParams]="{date:formatDate(day.date),time:timeIndex}">
+                        </div>
+                    </ng-template>
+                </div>
             </div>
         </div>
     </div>

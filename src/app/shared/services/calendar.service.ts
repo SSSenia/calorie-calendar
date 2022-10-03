@@ -1,5 +1,5 @@
-import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { IDay } from '../interfaces/day';
 import { IMeal } from '../interfaces/meal';
 import { IProfile } from '../interfaces/profile';
@@ -21,26 +21,26 @@ const DEFAULT_PROFILE: IProfile = {
 })
 export class CalendarService {
 
-  days: IDay[] = [];
-  profile: BehaviorSubject<IProfile> = new BehaviorSubject(DEFAULT_PROFILE);
+  days$: BehaviorSubject<IDay[]> = new BehaviorSubject<IDay[]>([]);
+  profile$: BehaviorSubject<IProfile> = new BehaviorSubject(DEFAULT_PROFILE);
 
   subToProfile!: Subscription;
 
   constructor() {
     const localProfile = localStorage.getItem('profile');
-    if (localProfile) this.profile.next(JSON.parse(localProfile));
+    if (localProfile) this.profile$.next(JSON.parse(localProfile));
   }
 
   getProfile() {
-    return this.profile;
+    return this.profile$;
   }
 
   setProfile(newProfile: IProfile) {
-    this.profile.next(newProfile);
-    localStorage.setItem('profile', JSON.stringify(this.profile.getValue()));
+    this.profile$.next(newProfile);
+    localStorage.setItem('profile', JSON.stringify(this.profile$.getValue()));
   }
 
-  getWeek(date: Date): IDay[] {
+  getWeek(date: Date): Observable<IDay[]> {
     date = new Date(this.formatDate(date));
     const week: IDay[] = [];
     let begin = date.getTime() - (date.getDay() * 86400000);
@@ -51,11 +51,11 @@ export class CalendarService {
       week.push(day);
       begin += 86400000;
     }
-    return week;
+    return of(week);
   }
 
   setMeal(meal: IMeal, date: Date, hour: number) {
-    const search = this.days.find(x => x.date.getTime() == date.getTime());
+    const search = this.days$.getValue().find(x => x.date.getTime() == date.getTime());
     if (search) {
       search.meals[hour] = meal;
     }
@@ -63,23 +63,25 @@ export class CalendarService {
       const meals: IMeal[] = [];
       meals.length = 24;
       meals[hour] = meal;
-      this.days.push({ date: date, meals: meals })
+      const days = this.days$.getValue()
+      days.push({ date: date, meals: meals })
+      this.days$.next(days);
     }
     this.setDayToLocal(date)
   }
 
-  getMeal(date: Date, time: number): IMeal | undefined {
-    return this.getDay(date).meals[time];
+  getMeal(date: Date, time: number): Observable<IMeal | undefined> {
+    return of(this.getDay(date).meals[time]);
   }
 
   getDay(date: Date) {
-    const search = this.days.find(x => x.date.getTime() == date.getTime());
+    const search = this.days$.getValue().find(x => x.date.getTime() == date.getTime());
     return search ? search : this.getDayFromLocal(date);
   }
 
   setDayToLocal(date: Date) {
     const key = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-    localStorage.setItem(key, JSON.stringify(this.days.find(x => x.date.getTime() == date.getTime())));
+    localStorage.setItem(key, JSON.stringify(this.days$.getValue().find(x => x.date.getTime() == date.getTime())));
   }
 
   getDayFromLocal(date: Date): IDay {
@@ -90,7 +92,9 @@ export class CalendarService {
       "meals": []
     }`);
     data.date = new Date(data.date);
-    this.days.push(data);
+    const days = this.days$.getValue();
+    days.push(data);
+    this.days$.next(days);
     return data;
   }
 
@@ -104,5 +108,10 @@ export class CalendarService {
       - 4.92 * 21
       + (gender == 'Male' ? 166 : 0)
       - 161;
+  }
+  
+  isFileImage(file: File) {
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/svg'];
+    return file && acceptedImageTypes.includes(file['type'])
   }
 }

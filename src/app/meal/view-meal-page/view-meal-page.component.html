@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="meal$ | async as meal">
     <button class="back" [routerLink]="['/calendar']">Back</button>
     <h1>{{meal.title}}</h1>
     <div class="data">
