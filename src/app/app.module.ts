@@ -10,6 +10,7 @@ import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { ViewDayPageComponent } from './view-day-page/view-day-page.component';
 import { SharedModule } from './shared/shared.module';
 import { MealModule } from './meal/meal.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { MealModule } from './meal/meal.module';
     SharedModule,
     MealModule
   ],
-  providers: [],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-UA' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

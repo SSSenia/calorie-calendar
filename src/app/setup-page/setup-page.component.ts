@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { IProfile } from '../shared/interfaces/profile';
+import { CalendarService } from '../shared/services/calendar.service';
 
 @Component({
   selector: 'app-setup-page',
@@ -10,30 +13,49 @@ export class SetupPageComponent implements OnInit {
 
   genderTypes: string[] = ['Male', 'Female']
 
-  allParams: FormGroup = new FormGroup({
-    bodyParams: new FormGroup({
-      gender: new FormControl('Male'),
-      weight: new FormControl(76),
-      height: new FormControl(200)
-    }),
-    minKcal: new FormControl(2000),
-    maxKcal: new FormControl(2000),
-    fats: new FormControl(55),
-    proteins: new FormControl(55),
-    carbohydrates: new FormControl(55)
-  })
+  profile$!: BehaviorSubject<IProfile>;
 
+  allParams!: FormGroup;
 
-  constructor() { }
+  validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+
+  constructor(
+    private calendarService: CalendarService
+  ) { }
 
   ngOnInit(): void {
+    this.profile$ = this.calendarService.getProfile();
+    this.allParams = new FormGroup({
+      bodyParams: new FormGroup({
+        gender: new FormControl(this.profile$.getValue().gender),
+        weight: new FormControl(this.profile$.getValue().weight, this.validators),
+        height: new FormControl(this.profile$.getValue().height, this.validators)
+      }),
+      minKcal: new FormControl(this.profile$.getValue().minKcal, this.validators),
+      maxKcal: new FormControl(this.profile$.getValue().maxKcal, this.validators),
+      fats: new FormControl(this.profile$.getValue().fats, this.validators),
+      proteins: new FormControl(this.profile$.getValue().proteins, this.validators),
+      carbohydrates: new FormControl(this.profile$.getValue().carbohydrates, this.validators)
+    })
   }
 
   onSubmitAllParams() {
-    console.log(this.allParams.controls);
-
+    const bodyParams = this.allParams.value.bodyParams;
+    const allParams = this.allParams.value;
+    delete allParams.bodyParams;
+    this.calendarService.setProfile(Object.assign(bodyParams, allParams));
   }
-  onSubmitBodyParams() {
-    console.log(this.allParams.controls['bodyParams'].value);
+
+  calculateRate() {
+    const bodyParams = this.allParams.value.bodyParams;
+    const REE = this.calendarService.calculateREE(bodyParams.weight, bodyParams.height, bodyParams.gender);
+
+    this.allParams.patchValue({
+      minKcal: Math.round(REE - 300),
+      maxKcal: Math.round(REE + 100),
+      fats: Math.round(REE / 4 / 9),
+      proteins: Math.round(REE / 4 / 4),
+      carbohydrates: Math.round(REE / 2 / 4)
+    })
   }
 }

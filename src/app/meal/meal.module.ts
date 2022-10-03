@@ -16,8 +16,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule,
     RouterModule.forChild([
-      { path: 'edit/:id', component: EditMealPageComponent },
-      { path: 'view/:id', component: ViewMealPageComponent },
+      { path: 'edit', component: EditMealPageComponent },
+      { path: 'view', component: ViewMealPageComponent },
       { path: 'new', component: NewMealPageComponent }
     ])
   ]

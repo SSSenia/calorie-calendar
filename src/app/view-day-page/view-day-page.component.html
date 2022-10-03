@@ -1,21 +1,22 @@
-<div class="wrapper">
-    <button class="back">Back</button>
-    <h1>August 7</h1>
+<div class="wrapper" *ngIf="day$ | async as day">
+    <button class="back" [routerLink]="['/calendar']">Back</button>
+    <h1>{{day.date | date}}</h1>
     <div class="data">
         <h2>Kcal</h2>
-        <div class="value">55</div>
+        <div class="value">{{count(day, 'kcal')}}</div>
         <h2>Fats (gm)</h2>
-        <div class="value">55</div>
+        <div class="value">{{count(day, 'fats')}}</div>
         <h2>Proteins (gm)</h2>
-        <div class="value">55</div>
+        <div class="value">{{count(day, 'proteins')}}</div>
         <h2>Carbohydrates (gm)</h2>
-        <div class="value">55</div>
-        <div class="meals">
-            <button class="meal">
-                <div class="title">Завтрак хлопья</div>
+        <div class="value">{{count(day, 'carbohydrates')}}</div>
+        <div class="meals" *ngFor="let meal of day.meals; index as idx">
+            <button class="meal" *ngIf="meal" [routerLink]="['/meal', 'view']"
+                [queryParams]="{date: formatDate(day.date), time: idx}">
+                <div class="title">{{meal.title}}</div>
                 <div class="params">
-                    <div class="kcal">450</div>
-                    <div class="time">12:40</div>
+                    <div class="kcal">{{meal.kcal}}</div>
+                    <div class="time">{{idx}}:00</div>
                 </div>
             </button>
         </div>

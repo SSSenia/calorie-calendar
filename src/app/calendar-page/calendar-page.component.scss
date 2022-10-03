@@ -2,7 +2,7 @@ $grey: #D8D5D5;
 
 header {
     display: grid;
-    grid-template-columns: 20vw auto;
+    grid-template-columns: 17vmin auto;
     position: fixed;
     top: 0;
     right: 0;
@@ -12,11 +12,16 @@ header {
     font-family: 'Roboto Condensed';
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 3.3vmin;
+    line-height: 3.8vmin;
     color: #000000;
     z-index: 1;
     background: white;
+    height: 83px;
+
+    @media only screen and (min-width: 420px) {
+        height: 20vmin;
+    }
 
     button {
         border: none;
@@ -25,6 +30,7 @@ header {
 
         &:hover {
             background: #dbdbdb;
+            cursor: pointer;
         }
     }
 
@@ -36,15 +42,22 @@ header {
 
         .setup {
             padding: 3px;
-            width: 40px;
-            height: 40px;
+            width: 9vmin;
+            height: 9vmin;
 
             mat-icon {
-                width: 33px;
-                height: 33px;
-                font-size: 33px;
+                width: 7.9vmin;
+                height: 7.9vmin;
+                font-size: 7.9vmin;
                 transform: rotate(-22.5deg);
                 color: #607dc4;
+                transition: 0.3s;
+            }
+
+            transition: 0.3s;
+
+            &:hover mat-icon {
+                transform: rotate(22.5deg);
             }
         }
 
@@ -70,12 +83,12 @@ header {
             }
 
             ::ng-deep .mat-datepicker-input {
-                font-size: 3vw;
+                font-size: 2.5vw;
             }
 
             ::ng-deep .mat-focus-indicator {
-                width: 5vw;
-                height: 5vw;
+                width: 4vw;
+                height: 4vw;
             }
         }
     }
@@ -84,12 +97,43 @@ header {
         display: grid;
         grid-template-columns: repeat(7, calc(100% / 7));
 
-        div {
+        .column {
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
             border-left: 1px solid $grey;
             text-align: center;
+            transition: 0.3s;
 
-            &:nth-child(7n-6) {
+            &:first-child {
                 border-left: none;
+            }
+
+            &:hover {
+                background: #f0f0f0;
+                cursor: pointer;
+                padding: 10%;
+            }
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    margin: 0;
+                }
+            }
+        }
+
+        .day {
+            font-weight: 700;
+
+            .now {
+                border-radius: 50%;
+                height: 3.8vmin;
+                aspect-ratio: 1 / 1;
+                background: #799CF4;
+                color: white;
             }
         }
     }
@@ -100,18 +144,22 @@ header {
     font-family: 'Roboto Condensed';
     font-style: normal;
     margin-top: 83px;
-    padding: 10px;
+
+    @media only screen and (min-width: 420px) {
+        margin-top: 20vmin;
+    }
+
+    padding: 0 10px;
     display: grid;
-    grid-template-columns: 20vw auto;
+    grid-template-columns: 17vmin auto;
 
     .time-column {
         font-weight: 300;
-        font-size: 14px;
-        line-height: 16px;
+        font-size: 3.4vmin;
+        line-height: 3.8vmin;
         color: #413F3F;
         display: grid;
         grid-template-columns: auto;
-        justify-content: space-around;
     }
 
     .food {
@@ -130,13 +178,12 @@ header {
         .food-time {
             border-top: 1px solid $grey;
             border-left: 1px solid $grey;
+            position: relative;
+            aspect-ratio: 1 / 1;
 
             &:nth-child(25n-0) {
                 border-bottom: 1px solid $grey;
             }
-
-            position: relative;
-            aspect-ratio: 1 / 1;
 
             .select {
                 user-select: none;
@@ -147,13 +194,17 @@ header {
                 right: 2px;
                 left: 2px;
                 aspect-ratio: 1 / 1;
+                transition: 0.3s;
 
                 &:hover {
-                    background: #799cf49d;
+                    background: #799cf457;
+                    cursor: pointer;
+                    border-radius: 10%;
+                    margin: 3%;
                 }
 
                 &:active {
-                    background: #607dc4;
+                    background: #607cc46b;
                 }
             }
 
@@ -177,6 +228,14 @@ header {
                 .kcal {
                     font-style: normal;
                     font-weight: 700;
+                }
+
+                &:hover {
+                    background: #799cf4cb;
+                }
+
+                &:active {
+                    background: #799cf47c;
                 }
             }
         }

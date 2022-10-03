@@ -40,21 +40,35 @@
             display: flex;
             justify-content: space-between;
 
+            .time {
+                display: flex;
+                align-items: center;
+                width: 100%;
+
+                ::ng-deep .mat-input-element {
+                    text-align: right;
+                    width: 50%;
+                    height: 9vmin;
+                    font-size: 4.5vmin;
+                    color: #000000;
+                    line-height: 5.5vmin;
+                }
+
+                .minutes {
+                    display: flex;
+                    align-items: center;
+                    padding: auto;
+                    width: 50%;
+                    height: 9vmin;
+                    font-size: 4.5vmin;
+                    color: #000000;
+                    line-height: 5.5vmin;
+                }
+            }
+
             ::ng-deep .mat-form-field {
                 width: 45%;
             }
-        }
-    }
-
-    .form-body-params {
-        display: flex;
-        flex-direction: column;
-
-        .choice-gender-label {
-            font-size: 4.5vmin;
-            line-height: 5vmin;
-            color: #000000;
-            margin-bottom: 3vmin;
         }
     }
 

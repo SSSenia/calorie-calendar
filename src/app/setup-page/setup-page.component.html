@@ -1,7 +1,7 @@
 <div class="wrapper">
     <nav>
-        <button class="cancel">Cancel</button>
-        <button class="exit" [routerLink]="['/calendar']">
+        <button class="cancel" [routerLink]="['/calendar']">Cancel</button>
+        <button class="exit">
             <mat-icon>exit_to_app</mat-icon>
         </button>
     </nav>
@@ -11,10 +11,7 @@
             <label class="choice-gender-label">Gender</label>
             <mat-radio-group formControlName="gender" aria-labelledby="example-radio-group-label"
                 class="example-radio-group">
-                <mat-radio-button
-                    color="primary"
-                    class="example-radio-button"
-                    *ngFor="let gender of genderTypes"
+                <mat-radio-button color="primary" class="example-radio-button" *ngFor="let gender of genderTypes"
                     [value]="gender">
                     {{gender}}
                 </mat-radio-button>
@@ -27,7 +24,7 @@
                 <mat-label>Height (sm)</mat-label>
                 <input matInput type="text" formControlName="height">
             </mat-form-field>
-            <button class="submit calculate" type="button" (click)="onSubmitBodyParams()">
+            <button class="submit calculate" type="button" (click)="calculateRate()">
                 Calculate rate for day</button>
         </div>
 

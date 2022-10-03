@@ -6,13 +6,13 @@ import { SetupPageComponent } from './setup-page/setup-page.component';
 import { ViewDayPageComponent } from './view-day-page/view-day-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/start', pathMatch: 'full' },
+  { path: '', redirectTo: '/calendar', pathMatch: 'full' },
   { path: 'start', component: StartPageComponent },
   { path: 'calendar', component: CalendarPageComponent },
   { path: 'setup', component: SetupPageComponent },
-  { path: 'view-day/:id', component: ViewDayPageComponent },
-  { path: 'meal', loadChildren: ()=> import('./meal/meal.module').then(m => m.MealModule)},
-  { path: '**', redirectTo: '/start' }
+  { path: 'view-day', component: ViewDayPageComponent },
+  { path: 'meal', loadChildren: () => import('./meal/meal.module').then(m => m.MealModule) },
+  { path: '**', redirectTo: '/calendar' }
 ];
 
 @NgModule({

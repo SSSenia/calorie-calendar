@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <button class="cancel">Cancel</button>
+    <button class="cancel" [routerLink]="['/calendar']">Cancel</button>
     <h1 class="title">New meal</h1>
     <form class="form-all-params" [formGroup]="dinnerParams" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill">
@@ -13,7 +13,12 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Time</mat-label>
-                <input matInput type="text" formControlName="time">
+                <div class="time">
+                    <input matInput type="text" formControlName="time">
+                    <div class="minutes" [ngStyle]="{display: dinnerParams.value['time'] ? 'flex': 'none'}">
+                        <span>:00</span>
+                    </div>
+                </div>
             </mat-form-field>
         </div>
         <mat-form-field appearance="fill">
@@ -29,14 +34,14 @@
             <input matInput type="text" formControlName="carbohydrates">
         </mat-form-field>
         <div class="label">Image</div>
-        <div class="image-drop-container" [class]="classForDrop">
+        <div class="image-drop-container" [ngClass]="classForDrop ? 'over' : ''">
             <div class="image-drop-overlay">
                 <mat-icon>perm_media</mat-icon>
             </div>
-            <img class="image" [appImageUpload]="selectedImage" src="" alt="">
-            <input class="image-drop" type="file" formControlName="image" (change)="onFileSelected($event)"
-                (dragover)="classForDrop = 'over'" (dragleave)="classForDrop = ''" (drop)="classForDrop = ''">
+            <img class="image" [appImageUpload]="selectedImage" alt="image">
+            <input class="image-drop" type="file" (change)="onFileSelected($event)" (dragover)="classForDrop = true"
+                (dragleave)="classForDrop = false" (drop)="!classForDrop = false">
         </div>
-        <button class="submit" type="submit">Add meal</button>
+        <button class="submit" type="submit" [disabled]="dinnerParams.invalid">Add meal</button>
     </form>
 </div>

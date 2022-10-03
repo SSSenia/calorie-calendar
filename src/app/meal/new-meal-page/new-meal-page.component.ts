@@ -1,5 +1,7 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarService } from 'src/app/shared/services/calendar.service';
 
 @Component({
   selector: 'app-new-meal-page',
@@ -8,31 +10,40 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class NewMealPageComponent implements OnInit {
 
+  date!: Date;
+  time!: number;
   selectedImage: null | string = null;
-
-  classForDrop = '';
-
-  dinnerParams: FormGroup = new FormGroup({
-    title: new FormControl('Dinner shit'),
-    kcal: new FormControl(1230),
-    time: new FormControl('17:50'),
-    fats: new FormControl(55),
-    proteins: new FormControl(55),
-    carbohydrates: new FormControl(55),
-    image: new FormControl()
-  });
+  classForDrop = false;
+  validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+  dinnerParams!: FormGroup;
 
   constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
+    private route: ActivatedRoute,
+    private router: Router,
+    private calendarService: CalendarService
   ) { }
 
   ngOnInit(): void {
-
+    this.dinnerParams = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+      kcal: new FormControl('', this.validators),
+      time: new FormControl('', this.validators.concat([
+        (control: AbstractControl) => +control.value < 24 && +control.value >= 0 ? null : { passwordStrength: true }])),
+      fats: new FormControl('', this.validators),
+      proteins: new FormControl('', this.validators),
+      carbohydrates: new FormControl('', this.validators)
+    });
+    const snapshot = this.route.snapshot.queryParams;
+    this.date = new Date(snapshot['date']);
+    this.time = snapshot['time'];
+    this.dinnerParams.patchValue({ time: this.time });
   }
 
   onSubmit() {
-    console.log(this.dinnerParams);
+    if (!this.dinnerParams.invalid) {
+      this.router.navigate(['/calendar'])
+      this.calendarService.setMeal(Object.assign(this.dinnerParams.value, { image: this.selectedImage }), this.date, this.time);
+    }
   }
 
   isFileImage(file: File) {
