@@ -1,7 +1,7 @@
 <div class="wrapper">
     <nav>
         <button class="cancel" [routerLink]="['/calendar']">Cancel</button>
-        <button class="exit">
+        <button class="exit" (click)="auth.logout({ returnTo: document.location.origin })">
             <mat-icon>exit_to_app</mat-icon>
         </button>
     </nav>

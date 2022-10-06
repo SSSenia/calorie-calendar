@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { IDay } from '../interfaces/day';
 import { IMeal } from '../interfaces/meal';
@@ -26,9 +27,16 @@ export class CalendarService {
 
   subToProfile!: Subscription;
 
-  constructor() {
-    const localProfile = localStorage.getItem('profile');
-    if (localProfile) this.profile$.next(JSON.parse(localProfile));
+  userEmail: BehaviorSubject<string> = new BehaviorSubject<string>('');
+
+  constructor(private auth: AuthService) {
+    this.auth.user$.subscribe((user) => {
+      if (user?.email){
+        this.userEmail.next(user.email);
+        const localProfile = localStorage.getItem(user.email + 'profile');
+        if (localProfile) this.profile$.next(JSON.parse(localProfile));
+      }
+    })
   }
 
   getProfile() {
@@ -37,7 +45,7 @@ export class CalendarService {
 
   setProfile(newProfile: IProfile) {
     this.profile$.next(newProfile);
-    localStorage.setItem('profile', JSON.stringify(this.profile$.getValue()));
+    localStorage.setItem(this.userEmail.getValue() + 'profile', JSON.stringify(this.profile$.getValue()));
   }
 
   getWeek(date: Date): Observable<IDay[]> {
@@ -81,12 +89,12 @@ export class CalendarService {
 
   setDayToLocal(date: Date) {
     const key = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-    localStorage.setItem(key, JSON.stringify(this.days$.getValue().find(x => x.date.getTime() == date.getTime())));
+    localStorage.setItem(this.userEmail.getValue() + key, JSON.stringify(this.days$.getValue().find(x => x.date.getTime() == date.getTime())));
   }
 
   getDayFromLocal(date: Date): IDay {
     const data = JSON.parse(
-      localStorage.getItem(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate())
+      localStorage.getItem(this.userEmail.getValue() + date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate())
       ?? `{
       "date": "${date}",
       "meals": []
@@ -109,7 +117,7 @@ export class CalendarService {
       + (gender == 'Male' ? 166 : 0)
       - 161;
   }
-  
+
   isFileImage(file: File) {
     const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/svg'];
     return file && acceptedImageTypes.includes(file['type'])

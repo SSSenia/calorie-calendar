@@ -12,6 +12,7 @@ import { ViewDayPageComponent } from './view-day-page/view-day-page.component';
 import { SharedModule } from './shared/shared.module';
 import { MealModule } from './meal/meal.module';
 import 'hammerjs'
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,11 @@ import 'hammerjs'
     BrowserAnimationsModule,
     SharedModule,
     MealModule,
-    HammerModule
+    HammerModule,
+    AuthModule.forRoot({
+      domain: 'dev--k0zibt2.us.auth0.com',
+      clientId: 'cmIGEA0DXmPTlLHvuJM21NNC0xaCcIFc'
+    })
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ru-UA' }],
   bootstrap: [AppComponent]

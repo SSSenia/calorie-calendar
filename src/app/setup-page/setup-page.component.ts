@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { BehaviorSubject } from 'rxjs';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
@@ -22,7 +24,8 @@ export class SetupPageComponent implements OnInit {
 
   constructor(
     private calendarService: CalendarService,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) public document: Document, public auth: AuthService
   ) { }
 
   ngOnInit(): void {
