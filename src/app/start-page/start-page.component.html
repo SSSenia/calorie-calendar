@@ -9,17 +9,10 @@
 
     <img class="logo-img" src="./assets/img/logo.png" alt="logo">
 
-    <button class="sing-in" (click)="auth.loginWithRedirect()" *ngIf="!(auth.isAuthenticated$ | async); else next">
+    <button class="sing-in" (click)="auth.loginWithRedirect()">
         <img class="logo-google" src="./assets/img/google.png" alt="google">
         <p class="sing-in-text">
             Sign in with Google
         </p>
     </button>
-    <ng-template #next>
-        <button class="sing-in" [routerLink]="['/calendar']">
-            <p class="sing-in-text">
-                Go to calendar
-            </p>
-        </button>
-    </ng-template>
 </div>

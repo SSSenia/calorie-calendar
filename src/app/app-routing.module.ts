@@ -5,10 +5,11 @@ import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { SetupPageComponent } from './setup-page/setup-page.component';
 import { ViewDayPageComponent } from './view-day-page/view-day-page.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { StartGuard } from './shared/guards/start.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/start', pathMatch: 'full' },
-  { path: 'start', component: StartPageComponent },
+  { path: 'start', component: StartPageComponent, canActivate: [StartGuard]  },
   { path: 'calendar', component: CalendarPageComponent, canActivate: [AuthGuard] },
   { path: 'setup', component: SetupPageComponent, canActivate: [AuthGuard] },
   { path: 'view-day', component: ViewDayPageComponent, canActivate: [AuthGuard] },
