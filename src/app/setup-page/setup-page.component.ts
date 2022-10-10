@@ -3,7 +3,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { BehaviorSubject } from 'rxjs';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
 
@@ -16,7 +15,7 @@ export class SetupPageComponent implements OnInit {
 
   genderTypes: string[] = ['Male', 'Female']
 
-  profile$!: BehaviorSubject<IProfile>;
+  profile!: IProfile;
 
   allParams!: FormGroup;
 
@@ -29,18 +28,18 @@ export class SetupPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.profile$ = this.calendarService.getProfile();
+    this.profile = this.calendarService.getProfile();
     this.allParams = new FormGroup({
       bodyParams: new FormGroup({
-        gender: new FormControl(this.profile$.getValue().gender),
-        weight: new FormControl(this.profile$.getValue().weight, this.validators),
-        height: new FormControl(this.profile$.getValue().height, this.validators)
+        gender: new FormControl(this.profile.gender),
+        weight: new FormControl(this.profile.weight, this.validators),
+        height: new FormControl(this.profile.height, this.validators)
       }),
-      minKcal: new FormControl(this.profile$.getValue().minKcal, this.validators),
-      maxKcal: new FormControl(this.profile$.getValue().maxKcal, this.validators),
-      fats: new FormControl(this.profile$.getValue().fats, this.validators),
-      proteins: new FormControl(this.profile$.getValue().proteins, this.validators),
-      carbohydrates: new FormControl(this.profile$.getValue().carbohydrates, this.validators)
+      minKcal: new FormControl(this.profile.minKcal, this.validators),
+      maxKcal: new FormControl(this.profile.maxKcal, this.validators),
+      fats: new FormControl(this.profile.fats, this.validators),
+      proteins: new FormControl(this.profile.proteins, this.validators),
+      carbohydrates: new FormControl(this.profile.carbohydrates, this.validators)
     })
   }
 

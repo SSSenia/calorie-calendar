@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { IDay } from '../shared/interfaces/day';
 import { CalendarService } from '../shared/services/calendar.service';
 
@@ -11,7 +10,7 @@ import { CalendarService } from '../shared/services/calendar.service';
 })
 export class ViewDayPageComponent implements OnInit {
 
-  day$!: Observable<IDay>;
+  day!: IDay;
 
   constructor(
     private calendarService: CalendarService,
@@ -20,7 +19,7 @@ export class ViewDayPageComponent implements OnInit {
 
   ngOnInit(): void {
     const snapshot = this.route.snapshot.queryParams;
-    this.day$ = of(this.calendarService.getDay(new Date(snapshot['date'])));
+    this.day = this.calendarService.getDay(new Date(snapshot['date']));
   }
 
   count(day: IDay, type: string): number {

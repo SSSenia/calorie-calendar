@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="meal$ | async">
+<div class="wrapper">
     <button class="cancel" routerLink="/calendar">Cancel</button>
     <h1 class="title">Edit meal</h1>
     <form class="form-all-params" [formGroup]="dinnerParams" (ngSubmit)="onSubmit()">

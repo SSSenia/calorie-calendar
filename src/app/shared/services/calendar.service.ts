@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { IDay } from '../interfaces/day';
 import { IMeal } from '../interfaces/meal';
 import { IProfile } from '../interfaces/profile';
@@ -22,33 +21,30 @@ const DEFAULT_PROFILE: IProfile = {
 })
 export class CalendarService {
 
-  days$: BehaviorSubject<IDay[]> = new BehaviorSubject<IDay[]>([]);
-  profile$: BehaviorSubject<IProfile> = new BehaviorSubject(DEFAULT_PROFILE);
-
-  subToProfile!: Subscription;
-
-  userEmail: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  days: IDay[] = [];
+  profile: IProfile = DEFAULT_PROFILE;
+  userEmail: string = '';
 
   constructor(private auth: AuthService) {
     this.auth.user$.subscribe((user) => {
-      if (user?.email){
-        this.userEmail.next(user.email);
+      if (user?.email) {
+        this.userEmail = user.email;
         const localProfile = localStorage.getItem(user.email + 'profile');
-        if (localProfile) this.profile$.next(JSON.parse(localProfile));
+        if (localProfile) this.profile = JSON.parse(localProfile);
       }
     })
   }
 
-  getProfile() {
-    return this.profile$;
+  getProfile(): IProfile {
+    return this.profile;
   }
 
   setProfile(newProfile: IProfile) {
-    this.profile$.next(newProfile);
-    localStorage.setItem(this.userEmail.getValue() + 'profile', JSON.stringify(this.profile$.getValue()));
+    this.profile = newProfile;
+    localStorage.setItem(this.userEmail + 'profile', JSON.stringify(this.profile));
   }
 
-  getWeek(date: Date): Observable<IDay[]> {
+  getWeek(date: Date): IDay[] {
     date = new Date(this.formatDate(date));
     const week: IDay[] = [];
     let begin = date.getTime() - (date.getDay() * 86400000);
@@ -59,11 +55,11 @@ export class CalendarService {
       week.push(day);
       begin += 86400000;
     }
-    return of(week);
+    return week;
   }
 
   setMeal(meal: IMeal, date: Date, hour: number) {
-    const search = this.days$.getValue().find(x => x.date.getTime() == date.getTime());
+    const search = this.days.find(x => x.date.getTime() == date.getTime());
     if (search) {
       search.meals[hour] = meal;
     }
@@ -71,38 +67,36 @@ export class CalendarService {
       const meals: IMeal[] = [];
       meals.length = 24;
       meals[hour] = meal;
-      const days = this.days$.getValue()
+      const days = this.days
       days.push({ date: date, meals: meals })
-      this.days$.next(days);
+      this.days = days;
     }
     this.setDayToLocal(date)
   }
 
-  getMeal(date: Date, time: number): Observable<IMeal | undefined> {
-    return of(this.getDay(date).meals[time]);
+  getMeal(date: Date, time: number): IMeal | undefined {
+    return this.getDay(date).meals[time];
   }
 
   getDay(date: Date) {
-    const search = this.days$.getValue().find(x => x.date.getTime() == date.getTime());
+    const search = this.days.find(x => x.date.getTime() == date.getTime());
     return search ? search : this.getDayFromLocal(date);
   }
 
   setDayToLocal(date: Date) {
-    const key = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-    localStorage.setItem(this.userEmail.getValue() + key, JSON.stringify(this.days$.getValue().find(x => x.date.getTime() == date.getTime())));
+    const key = this.formatDate(date);
+    localStorage.setItem(this.userEmail + key, JSON.stringify(this.days.find(x => x.date.getTime() == date.getTime())));
   }
 
   getDayFromLocal(date: Date): IDay {
     const data = JSON.parse(
-      localStorage.getItem(this.userEmail.getValue() + date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate())
+      localStorage.getItem(this.formatDate(date))
       ?? `{
       "date": "${date}",
       "meals": []
     }`);
     data.date = new Date(data.date);
-    const days = this.days$.getValue();
-    days.push(data);
-    this.days$.next(days);
+    this.days.push(data);
     return data;
   }
 

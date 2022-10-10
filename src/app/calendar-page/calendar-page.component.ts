@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, of, Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IDay } from '../shared/interfaces/day';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
@@ -16,11 +16,11 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   time: number[] = [];
 
-  profile$!: Observable<IProfile>;
-  days$!: Observable<IDay[]>;
-  
+  profile!: IProfile;
+  days!: IDay[];
+
   subDate!: Subscription;
-  
+
   dateNow = new Date(this.calendarService.formatDate(new Date()));
 
   form: FormGroup = new FormGroup({
@@ -35,7 +35,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
     this.subDate = this.form.valueChanges.subscribe((value) => {
       this.changeWeek(value.date);
     })
-    this.profile$ = this.calendarService.getProfile();
+    this.profile = this.calendarService.getProfile();
     this.changeWeek(new Date);
     for (let i = 0; i < 24; i++)
       this.time.push(i);
@@ -46,13 +46,10 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   }
 
   changeWeek(newDate: Date) {
-    this.days$ = this.calendarService.getWeek(newDate).pipe(
-      tap((value) => {
-        this.kcalDays = value
-          .map((day) => day.meals.reduce(
-            (sum, current) => sum + +(current ? current.kcal : 0), 0));
-      })
-    );
+    this.days = this.calendarService.getWeek(newDate);
+    this.kcalDays = this.days
+      .map((day) => day.meals.reduce(
+        (sum, current) => sum + +(current ? current.kcal : 0), 0));
   }
 
   formatDate(date: Date) {

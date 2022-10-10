@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 import { IMeal } from 'src/app/shared/interfaces/meal';
 import { CalendarService } from 'src/app/shared/services/calendar.service';
 
@@ -14,7 +13,7 @@ export class ViewMealPageComponent implements OnInit {
   date!: Date;
   time!: number;
 
-  meal$!: Observable<IMeal | undefined>;
+  meal!: IMeal;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,11 +26,9 @@ export class ViewMealPageComponent implements OnInit {
     this.date = new Date(snapshot['date']);
     this.time = snapshot['time'];
 
-    this.meal$ = this.calendarService.getMeal(this.date, this.time).pipe(
-      tap(value => {
-        if (!value) this.router.navigate(['/calendar'])
-      })
-    );
+    const meal = this.calendarService.getMeal(this.date, this.time)
+    if (meal) this.meal = meal;
+    else this.router.navigate(['/calendar'])
   }
 
   formatDate(date: Date) {
