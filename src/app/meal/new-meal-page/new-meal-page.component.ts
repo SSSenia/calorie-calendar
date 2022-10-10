@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarService } from 'src/app/shared/services/calendar.service';
+import { hourRange } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-new-meal-page',
@@ -17,20 +18,20 @@ export class NewMealPageComponent implements OnInit {
 
   validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
-  dinnerParams: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    kcal: new FormControl('', this.validators),
-    time: new FormControl('', this.validators.concat([
-      (control: AbstractControl) => +control.value < 24 && +control.value >= 0 ? null : { passwordStrength: true }])),
-    fats: new FormControl('', this.validators),
-    proteins: new FormControl('', this.validators),
-    carbohydrates: new FormControl('', this.validators)
+  dinnerParams: FormGroup = this.formBuilder.group({
+    title: ['', [Validators.required]],
+    kcal: ['', this.validators],
+    time: ['', this.validators.concat([hourRange])],
+    fats: ['', this.validators],
+    proteins: ['', this.validators],
+    carbohydrates: ['', this.validators]
   });
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -38,12 +39,11 @@ export class NewMealPageComponent implements OnInit {
     this.date = new Date(this.calendarService.formatDate(new Date(snapshot['date'])));
     this.time = snapshot['time'];
     console.log(snapshot);
-    
-    if(this.date instanceof Date && !isNaN(+this.date) && typeof +this.time == 'number' && this.time < 24 && this.time >= 0){
+
+    if (this.date instanceof Date && !isNaN(+this.date) && typeof +this.time == 'number' && this.time < 24 && this.time >= 0) {
       this.dinnerParams.patchValue({ time: this.time });
     }
     else this.router.navigate(['/calendar'])
-    
   }
 
   onSubmit() {
