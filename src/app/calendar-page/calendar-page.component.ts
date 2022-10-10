@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ONE_DAY } from '../shared/const';
 import { IDay } from '../shared/interfaces/day';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
@@ -52,7 +53,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
   }
 
   onSwipe(side: string) {
-    const oneWeek = 86400000 * 7;
+    const oneWeek = ONE_DAY * 7;
     if (side == 'right')
       this.form.patchValue({ date: new Date(+this.form.value.date - oneWeek) })
     if (side == 'left')

@@ -1,20 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { DEFAULT_PROFILE, ONE_DAY } from '../const';
 import { IDay } from '../interfaces/day';
 import { IMeal } from '../interfaces/meal';
 import { IProfile } from '../interfaces/profile';
-
-//REE = 9.99 x weight + 6.25 x height - 4.92 x age + 166 x sex (males, 1; females, 0) - 161
-const DEFAULT_PROFILE: IProfile = {
-  gender: 'Male',
-  weight: 76,
-  height: 196,
-  minKcal: 1586,//-300
-  maxKcal: 1986,//+100
-  fats: 52, //1886 / 4 / 9
-  proteins: 118, //1886 / 4 / 4
-  carbohydrates: 236 //1886 / 2 / 4
-}
 
 @Injectable({
   providedIn: 'root'
@@ -47,13 +36,13 @@ export class CalendarService {
   getWeek(date: Date): IDay[] {
     date = new Date(this.formatDate(date));
     const week: IDay[] = [];
-    let begin = date.getTime() - (date.getDay() * 86400000);
+    let begin = date.getTime() - (date.getDay() * ONE_DAY);
     for (let i = 0; i < 7; i++) {
       const day = this.getDay(new Date(begin));
       if (!day.meals.length)
         day.meals.length = 24;
       week.push(day);
-      begin += 86400000;
+      begin += ONE_DAY;
     }
     return week;
   }
