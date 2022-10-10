@@ -15,17 +15,17 @@
 
     <div class="week">
         <div class="column" *ngFor="let i of days; index as ind" [routerLink]="['/view-day']"
-            [queryParams]="{date: formatDate(i.date)}">
+            [queryParams]="{date: i.date|date:'Y-M-d'}">
             <div class="kcal"
                 [ngStyle]="{color: kcalDays[ind] < profile.minKcal ? '#F5D45E' : kcalDays[ind] > profile.maxKcal ? '#F47981' : '#799CF4'}">
-                <p>{{ kcalDays[ind]? kcalDays[ind]: ''}}</p>
+                <p>{{kcalDays[ind]? kcalDays[ind]: ''}}</p>
             </div>
             <div class="day">
                 <p [ngClass]="(+dateNow == +i.date ? 'now' : '') + ' '+ (+i.date == +form.value.date ? 'current' : '')">
                     {{i.date.getDate()}}</p>
             </div>
             <div class="week-day">
-                <p>{{weekDays[i.date.getDay()]}}</p>
+                <p>{{i.date|date:'E'}}</p>
             </div>
         </div>
     </div>
@@ -38,13 +38,13 @@
         <div class="food-day" *ngFor="let day of days; index as dayIndex">
             <div class="food-time" *ngFor="let time of day.meals; index as timeIndex">
                 <div class="select filled" *ngIf="time; else empty" [routerLink]="['/meal', 'view']"
-                    [queryParams]="{date:formatDate(day.date),time:timeIndex}">
+                    [queryParams]="{date: day.date|date:'Y-M-d',time:timeIndex}">
                     <div class="title">{{time.title}}</div>
                     <div class="kcal">{{time.kcal}}</div>
                 </div>
                 <ng-template #empty>
                     <div class="select empty" [routerLink]="['/meal', 'new']"
-                        [queryParams]="{date:formatDate(day.date),time:timeIndex}">
+                        [queryParams]="{date: day.date|date:'Y-M-d',time:timeIndex}">
                     </div>
                 </ng-template>
             </div>

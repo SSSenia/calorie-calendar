@@ -3,16 +3,16 @@
     <h1>{{day.date | date}}</h1>
     <div class="data">
         <h2>Kcal</h2>
-        <div class="value">{{count(day, 'kcal')}}</div>
+        <div class="value">{{day|sum:'kcal'}}</div>
         <h2>Fats (gm)</h2>
-        <div class="value">{{count(day, 'fats')}}</div>
+        <div class="value">{{day|sum:'fats'}}</div>
         <h2>Proteins (gm)</h2>
-        <div class="value">{{count(day, 'proteins')}}</div>
+        <div class="value">{{day|sum:'proteins'}}</div>
         <h2>Carbohydrates (gm)</h2>
-        <div class="value">{{count(day, 'carbohydrates')}}</div>
+        <div class="value">{{day|sum:'carbohydrates'}}</div>
         <div class="meals" *ngFor="let meal of day.meals; index as idx">
             <button class="meal" *ngIf="meal" [routerLink]="['/meal', 'view']"
-                [queryParams]="{date: formatDate(day.date), time: idx}">
+                [queryParams]="{date: day.date|date:'Y-M-d', time: idx}">
                 <div class="title">{{meal.title}}</div>
                 <div class="params">
                     <div class="kcal">{{meal.kcal}}</div>

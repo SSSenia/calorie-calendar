@@ -13,7 +13,6 @@ import { CalendarService } from '../shared/services/calendar.service';
 export class CalendarPageComponent implements OnInit, OnDestroy {
 
   kcalDays!: number[];
-  weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   time: number[] = [];
 
   profile!: IProfile;
@@ -50,10 +49,6 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
     this.kcalDays = this.days
       .map((day) => day.meals.reduce(
         (sum, current) => sum + +(current ? current.kcal : 0), 0));
-  }
-
-  formatDate(date: Date) {
-    return this.calendarService.formatDate(date);
   }
 
   onSwipe(side: string) {

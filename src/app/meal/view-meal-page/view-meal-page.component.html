@@ -16,7 +16,7 @@
             <h2>Image</h2>
             <img [src]="meal.image" alt="image">
         </div>
-        <button class="edit" [routerLink]="['/meal', 'edit']" [queryParams]="{date: formatDate(date), time: time}">
+        <button class="edit" [routerLink]="['/meal', 'edit']" [queryParams]="{date: date|date:'Y-M-d', time: time}">
             Edit meal</button>
     </div>
 </div>

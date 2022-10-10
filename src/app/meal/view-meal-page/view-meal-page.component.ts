@@ -30,8 +30,4 @@ export class ViewMealPageComponent implements OnInit {
     if (meal) this.meal = meal;
     else this.router.navigate(['/calendar'])
   }
-
-  formatDate(date: Date) {
-    return this.calendarService.formatDate(date);
-  }
 }
