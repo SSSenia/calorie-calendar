@@ -1,22 +1,22 @@
 <div class="wrapper">
     <button class="back" [routerLink]="['/calendar']">Back</button>
-    <h1>{{day.date | date}}</h1>
+    <h1 class="title">{{day.date | date}}</h1>
     <div class="data">
-        <h2>Kcal</h2>
-        <div class="value">{{day|sum:'kcal'}}</div>
-        <h2>Fats (gm)</h2>
-        <div class="value">{{day|sum:'fats'}}</div>
-        <h2>Proteins (gm)</h2>
-        <div class="value">{{day|sum:'proteins'}}</div>
-        <h2>Carbohydrates (gm)</h2>
-        <div class="value">{{day|sum:'carbohydrates'}}</div>
+        <h2 class="data__title">Kcal</h2>
+        <div class="data__value">{{day|sum:'kcal'}}</div>
+        <h2 class="data__title">Fats (gm)</h2>
+        <div class="data__value">{{day|sum:'fats'}}</div>
+        <h2 class="data__title">Proteins (gm)</h2>
+        <div class="data__value">{{day|sum:'proteins'}}</div>
+        <h2 class="data__title">Carbohydrates (gm)</h2>
+        <div class="data__value">{{day|sum:'carbohydrates'}}</div>
         <div class="meals" *ngFor="let meal of day.meals; index as idx">
             <button class="meal" *ngIf="meal" [routerLink]="['/meal', 'view']"
                 [queryParams]="{date: day.date|date:'Y-M-d', time: idx}">
-                <div class="title">{{meal.title}}</div>
-                <div class="params">
-                    <div class="kcal">{{meal.kcal}}</div>
-                    <div class="time">{{idx}}:00</div>
+                <div class="meal_title">{{meal.title}}</div>
+                <div class="meal_params">
+                    <div class="meal_kcal">{{meal.kcal}}</div>
+                    <div class="meal_time">{{idx}}:00</div>
                 </div>
             </button>
         </div>

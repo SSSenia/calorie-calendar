@@ -13,13 +13,11 @@ import { CalendarService } from '../shared/services/calendar.service';
 })
 export class SetupPageComponent implements OnInit {
 
-  genderTypes: string[] = ['Male', 'Female']
-
-  profile!: IProfile;
-
-  allParams!: FormGroup;
-
-  validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+  public genderTypes: string[] = ['Male', 'Female']
+  public allParams!: FormGroup;
+  
+  private profile!: IProfile;
+  private validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
   constructor(
     private calendarService: CalendarService,
@@ -28,7 +26,7 @@ export class SetupPageComponent implements OnInit {
     @Inject(DOCUMENT) public document: Document, public auth: AuthService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.profile = this.calendarService.getProfile();
     this.allParams = this.formBuilder.group({
       bodyParams: this.formBuilder.group({
@@ -44,7 +42,7 @@ export class SetupPageComponent implements OnInit {
     })
   }
 
-  onSubmitAllParams() {
+  public onSubmitAllParams() {
     const bodyParams = this.allParams.value.bodyParams;
     const allParams = this.allParams.value;
     delete allParams.bodyParams;
@@ -52,7 +50,7 @@ export class SetupPageComponent implements OnInit {
     this.router.navigate(['/calendar'])
   }
 
-  calculateRate() {
+  public calculateRate() {
     const bodyParams = this.allParams.value.bodyParams;
     const REE = this.calendarService.calculateREE(bodyParams.weight, bodyParams.height, bodyParams.gender);
 

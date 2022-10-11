@@ -1,17 +1,19 @@
 <div class="wrapper">
-    <div class="title">
-        Calorie Calendar
-    </div>
+    <header class="header">
+        <div class="header__title">
+            Calorie Calendar
+        </div>
 
-    <div class="slogan">
-        Your shape assistant
-    </div>
+        <div class="header__slogan">
+            Your shape assistant
+        </div>
 
-    <img class="logo-img" src="./assets/img/logo.png" alt="logo">
+        <img class="header__logo" src="./assets/img/logo.png" alt="logo">
+    </header>
 
     <button class="sing-in" (click)="auth.loginWithRedirect()">
-        <img class="logo-google" src="./assets/img/google.png" alt="google">
-        <p class="sing-in-text">
+        <img class="sing-in__logo" src="./assets/img/google.png" alt="google">
+        <p class="sing-in__text">
             Sign in with Google
         </p>
     </button>

@@ -1,20 +1,20 @@
 <div class="wrapper">
     <button class="back" [routerLink]="['/calendar']">Back</button>
-    <h1>{{meal.title}}</h1>
+    <h1 class="title">{{meal.title}}</h1>
     <div class="data">
-        <h2>Time</h2>
-        <div class="value">{{time}}:00</div>
-        <h2>Kcal</h2>
-        <div class="value">{{meal.kcal}}</div>
-        <h2>Fats (gm)</h2>
-        <div class="value">{{meal.fats}}</div>
-        <h2>Proteins (gm)</h2>
-        <div class="value">{{meal.proteins}}</div>
-        <h2>Carbohydrates (gm)</h2>
-        <div class="value">{{meal.carbohydrates}}</div>
+        <h2 class="data__title">Time</h2>
+        <div class="data__value">{{time}}:00</div>
+        <h2 class="data__title">Kcal</h2>
+        <div class="data__value">{{meal.kcal}}</div>
+        <h2 class="data__title">Fats (gm)</h2>
+        <div class="data__value">{{meal.fats}}</div>
+        <h2 class="data__title">Proteins (gm)</h2>
+        <div class="data__value">{{meal.proteins}}</div>
+        <h2 class="data__title">Carbohydrates (gm)</h2>
+        <div class="data__value">{{meal.carbohydrates}}</div>
         <div class="image-section" *ngIf="meal.image">
-            <h2>Image</h2>
-            <img [src]="meal.image" alt="image">
+            <h2 class="data__title">Image</h2>
+            <img class="image-section__image" [src]="meal.image" alt="image">
         </div>
         <button class="edit" [routerLink]="['/meal', 'edit']" [queryParams]="{date: date|date:'Y-M-d', time: time}">
             Edit meal</button>

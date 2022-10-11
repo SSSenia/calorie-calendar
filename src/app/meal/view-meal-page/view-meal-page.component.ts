@@ -10,10 +10,9 @@ import { CalendarService } from 'src/app/shared/services/calendar.service';
 })
 export class ViewMealPageComponent implements OnInit {
 
-  date!: Date;
-  time!: number;
-
-  meal!: IMeal;
+  public date!: Date;
+  public time!: number;
+  public meal!: IMeal;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,7 +20,7 @@ export class ViewMealPageComponent implements OnInit {
     private calendarService: CalendarService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const snapshot = this.route.snapshot.queryParams;
     this.date = new Date(snapshot['date']);
     this.time = snapshot['time'];

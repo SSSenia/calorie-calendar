@@ -12,15 +12,15 @@ import { hourRange } from 'src/app/shared/validators';
 })
 export class EditMealPageComponent implements OnInit {
 
-  date!: Date;
-  time!: number;
-  selectedImage: null | string = null;
-  meal!: IMeal | undefined;
-  classForDrop = false;
+  public date!: Date;
+  public time!: number;
+  public selectedImage: null | string = null;
+  public meal!: IMeal | undefined;
+  public classForDrop = false;
 
-  validators = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+  private validators = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
-  dinnerParams: FormGroup = this.formBuilder.group({
+  public dinnerParams: FormGroup = this.formBuilder.group({
     title: ['', [Validators.required]],
     kcal: ['', this.validators],
     time: ['', this.validators.concat([hourRange])],
@@ -36,7 +36,7 @@ export class EditMealPageComponent implements OnInit {
     private formBuilder: FormBuilder
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const snapshot = this.route.snapshot.queryParams;
     this.date = new Date(snapshot['date']);
     this.time = snapshot['time'];
@@ -49,14 +49,14 @@ export class EditMealPageComponent implements OnInit {
     else this.router.navigate(['/meal', 'new'], this.route.snapshot.queryParams)
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (!this.dinnerParams.invalid) {
       this.router.navigate(['/calendar'])
       this.calendarService.setMeal(Object.assign(this.dinnerParams.value, { image: this.selectedImage }), this.date, this.time);
     }
   }
 
-  onFileSelected(event: any) {
+  public onFileSelected(event: any) {
     let file = event.target.files[0];
     let reader = new FileReader();
     if (this.calendarService.isFileImage(file)) {

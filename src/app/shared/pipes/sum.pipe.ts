@@ -5,7 +5,7 @@ import { IDay } from "../interfaces/day";
     name: 'sum'
 })
 export class SumPipe implements PipeTransform {
-    transform(day: IDay, type: string) {
+    public transform(day: IDay, type: string) {
         let func;
         switch (type) {
             case 'kcal':

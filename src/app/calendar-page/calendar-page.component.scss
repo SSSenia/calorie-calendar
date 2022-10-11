@@ -1,6 +1,6 @@
 $grey: #D8D5D5;
 
-header {
+.top-panel {
     display: grid;
     grid-template-columns: 17vmin auto;
     position: fixed;
@@ -17,11 +17,7 @@ header {
     color: #000000;
     z-index: 1;
     background: white;
-    height: 83px;
-
-    @media only screen and (min-width: 420px) {
-        height: 20vmin;
-    }
+    height: 20vmin;
 
     button {
         border: none;
@@ -33,115 +29,114 @@ header {
             cursor: pointer;
         }
     }
+}
 
-    .buttons {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 
-        .setup {
-            padding: 3px;
-            width: 9vmin;
-            height: 9vmin;
+    .buttons__setup {
+        padding: 3px;
+        width: 9vmin;
+        height: 9vmin;
+        transition: 0.3s;
 
-            mat-icon {
-                width: 7.9vmin;
-                height: 7.9vmin;
-                font-size: 7.9vmin;
-                transform: rotate(-22.5deg);
-                color: #607dc4;
-                transition: 0.3s;
-            }
-
+        mat-icon {
+            width: 7.9vmin;
+            height: 7.9vmin;
+            font-size: 7.9vmin;
+            transform: rotate(-22.5deg);
+            color: #607dc4;
             transition: 0.3s;
-
-            &:hover mat-icon {
-                transform: rotate(22.5deg);
-            }
         }
 
-        .month {
-            width: 100%;
-
-            mat-form-field {
-                width: 100%;
-            }
-
-            ::ng-deep .mat-form-field-flex,
-            ::ng-deep .mat-form-field-infix {
-                padding: 0;
-                background: none;
-            }
-
-            ::ng-deep .mat-form-field-underline {
-                display: none;
-            }
-
-            ::ng-deep .mat-form-field-wrapper {
-                padding-bottom: 0;
-            }
-
-            ::ng-deep .mat-datepicker-input {
-                font-size: 2.5vw;
-            }
-
-            ::ng-deep .mat-focus-indicator {
-                width: 4vw;
-                height: 4vw;
-            }
+        &:hover mat-icon {
+            transform: rotate(22.5deg);
         }
     }
 
-    .week {
-        display: grid;
-        grid-template-columns: repeat(7, calc(100% / 7));
+    .buttons__month {
+        width: 100%;
 
-        .column {
-            display: grid;
-            grid-template-rows: 1fr 1fr 1fr;
-            border-left: 1px solid $grey;
-            text-align: center;
-            transition: 0.3s;
-
-            &:first-child {
-                border-left: none;
-            }
-
-            &:hover {
-                background: #f0f0f0;
-                cursor: pointer;
-                padding: 10%;
-            }
-
-            div {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                p {
-                    margin: 0;
-                }
-            }
+        mat-form-field {
+            width: 100%;
         }
 
-        .day {
-            font-weight: 700;
+        ::ng-deep .mat-form-field-flex,
+        ::ng-deep .mat-form-field-infix {
+            padding: 0;
+            background: none;
+        }
 
-            .now {
-                border-radius: 50%;
-                height: 3.8vmin;
-                aspect-ratio: 1 / 1;
-                background: #799CF4;
-                color: white;
-            }
+        ::ng-deep .mat-form-field-underline {
+            display: none;
+        }
 
-            .current {
-                border-radius: 50%;
-                height: 4.5vmin;
-                aspect-ratio: 1 / 1;
-                border: 2px solid #799CF4;
-            }
+        ::ng-deep .mat-form-field-wrapper {
+            padding-bottom: 0;
+        }
+
+        ::ng-deep .mat-datepicker-input {
+            font-size: 2.5vw;
+        }
+
+        ::ng-deep .mat-focus-indicator {
+            width: 4vw;
+            height: 4vw;
+        }
+    }
+}
+
+.week {
+    display: grid;
+    grid-template-columns: repeat(7, calc(100% / 7));
+}
+
+.column {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    border-left: 1px solid $grey;
+    text-align: center;
+    transition: 0.3s;
+
+    &:first-child {
+        border-left: none;
+    }
+
+    &:hover {
+        background: #f0f0f0;
+        cursor: pointer;
+        padding: 10%;
+    }
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .column__day {
+        font-weight: 700;
+
+        .column__day--now {
+            border-radius: 50%;
+            height: 3.8vmin;
+            aspect-ratio: 1 / 1;
+            background: #799CF4;
+            color: white;
+        }
+
+        .column__day--current {
+            border-radius: 50%;
+            height: 4.5vmin;
+            aspect-ratio: 1 / 1;
+            border: 2px solid #799CF4;
         }
     }
 }
@@ -150,100 +145,99 @@ header {
     text-align: center;
     font-family: 'Roboto Condensed';
     font-style: normal;
-    margin-top: 83px;
-
-    @media only screen and (min-width: 420px) {
-        margin-top: 20vmin;
-    }
-
+    margin-top: 20vmin;
     padding: 0 10px;
     display: grid;
     grid-template-columns: 17vmin auto;
 
-    .time-column {
-        font-weight: 300;
-        font-size: 3.4vmin;
-        line-height: 3.8vmin;
-        color: #413F3F;
-        display: grid;
-        grid-template-columns: auto;
+    @media only screen and (min-width: 420px) {
+        margin-top: 20vmin;
+    }
+}
+
+.time-column {
+    font-weight: 300;
+    font-size: 3.4vmin;
+    line-height: 3.8vmin;
+    color: #413F3F;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.food {
+    display: grid;
+    grid-template-columns: repeat(6, calc(100% / 7)) calc(100% / 7 + 1px);
+
+    .food__day {
+        display: flex;
+        flex-direction: column;
+
+        &:last-child {
+            border-right: 1px solid $grey;
+        }
     }
 
-    .food {
-        display: grid;
-        grid-template-columns: repeat(6, calc(100% / 7)) calc(100% / 7 + 1px);
+    .food__time {
+        border-top: 1px solid $grey;
+        border-left: 1px solid $grey;
+        position: relative;
+        aspect-ratio: 1 / 1;
 
-        .food-day {
-            display: flex;
-            flex-direction: column;
+        &:nth-child(25n-0) {
+            border-bottom: 1px solid $grey;
+        }
 
-            &:last-child {
-                border-right: 1px solid $grey;
+        .food__select {
+            user-select: none;
+            position: absolute;
+            display: block;
+            top: 2px;
+            bottom: 2px;
+            right: 2px;
+            left: 2px;
+            aspect-ratio: 1 / 1;
+            transition: 0.3s;
+
+            &:hover {
+                background: #799cf457;
+                cursor: pointer;
+                border-radius: 10%;
+                margin: 3%;
+            }
+
+            &:active {
+                background: #607cc46b;
             }
         }
 
-        .food-time {
-            border-top: 1px solid $grey;
-            border-left: 1px solid $grey;
-            position: relative;
-            aspect-ratio: 1 / 1;
+        .food__select--filled {
+            border: 0;
+            background: #799CF4;
+            font-size: 3vw;
+            line-height: 3vw;
+            color: #FFFFFF;
+            text-align: left;
+            padding: 2px;
+            max-height: calc(100% - 4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
-            &:nth-child(25n-0) {
-                border-bottom: 1px solid $grey;
+            .food__title {
+                font-weight: 400;
             }
 
-            .select {
-                user-select: none;
-                position: absolute;
-                display: block;
-                top: 2px;
-                bottom: 2px;
-                right: 2px;
-                left: 2px;
-                aspect-ratio: 1 / 1;
-                transition: 0.3s;
-
-                &:hover {
-                    background: #799cf457;
-                    cursor: pointer;
-                    border-radius: 10%;
-                    margin: 3%;
-                }
-
-                &:active {
-                    background: #607cc46b;
-                }
+            .food__kcal {
+                font-style: normal;
+                font-weight: 700;
             }
 
-            .filled {
-                border: 0;
-                background: #799CF4;
-                font-size: 3vw;
-                line-height: 3vw;
-                color: #FFFFFF;
-                text-align: left;
-                padding: 2px;
-                max-height: calc(100% - 4px);
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
+            &:hover {
+                background: #799cf4cb;
+            }
 
-                .title {
-                    font-weight: 400;
-                }
-
-                .kcal {
-                    font-style: normal;
-                    font-weight: 700;
-                }
-
-                &:hover {
-                    background: #799cf4cb;
-                }
-
-                &:active {
-                    background: #799cf47c;
-                }
+            &:active {
+                background: #799cf47c;
             }
         }
     }

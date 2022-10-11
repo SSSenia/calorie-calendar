@@ -4,71 +4,71 @@
     font-style: normal;
     max-width: 98vmin;
     font-weight: 400;
+}
 
-    .cancel {
-        padding: 0;
-        background: none;
-        border: none;
-        font-size: 5vmin;
-        line-height: 5vmin;
-        padding: 2vmin;
-        border-radius: 6vmin;
-        color: #000000;
+.cancel {
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 5vmin;
+    line-height: 5vmin;
+    padding: 2vmin;
+    border-radius: 6vmin;
+    color: #000000;
 
-        &:hover {
-            background: #eeeeee;
-        }
-
-        &:active {
-            background: #dbdbdb;
-        }
+    &:hover {
+        background: #eeeeee;
     }
 
-    .title {
-        text-align: center;
-        font-size: 8vmin;
-        line-height: 8vmin;
-        color: #000000;
+    &:active {
+        background: #dbdbdb;
     }
+}
 
-    .form-all-params {
+.title {
+    text-align: center;
+    font-size: 8vmin;
+    line-height: 8vmin;
+    color: #000000;
+}
+
+.form-all-params {
+    display: flex;
+    flex-direction: column;
+    margin: 0 24px;
+
+    .kcal-time {
         display: flex;
-        flex-direction: column;
-        margin: 0 24px;
+        justify-content: space-between;
 
-        .kcal-time {
+        .kcal-time__time {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            width: 100%;
 
-            .time {
+            ::ng-deep .mat-input-element {
+                text-align: right;
+                width: 50%;
+                height: 9vmin;
+                font-size: 4.5vmin;
+                color: #000000;
+                line-height: 5.5vmin;
+            }
+
+            .kcal-time__minutes {
                 display: flex;
                 align-items: center;
-                width: 100%;
-
-                ::ng-deep .mat-input-element {
-                    text-align: right;
-                    width: 50%;
-                    height: 9vmin;
-                    font-size: 4.5vmin;
-                    color: #000000;
-                    line-height: 5.5vmin;
-                }
-
-                .minutes {
-                    display: flex;
-                    align-items: center;
-                    padding: auto;
-                    width: 50%;
-                    height: 9vmin;
-                    font-size: 4.5vmin;
-                    color: #000000;
-                    line-height: 5.5vmin;
-                }
+                padding: auto;
+                width: 50%;
+                height: 9vmin;
+                font-size: 4.5vmin;
+                color: #000000;
+                line-height: 5.5vmin;
             }
+        }
 
-            ::ng-deep .mat-form-field {
-                width: 45%;
-            }
+        ::ng-deep .mat-form-field {
+            width: 45%;
         }
     }
 
@@ -105,23 +105,30 @@
         color: #000000;
         line-height: 5.5vmin;
     }
+}
 
-    .label {
+.image-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .image-drop__label {
+        width: 100%;
         font-size: 4.5vmin;
         padding-bottom: 1em;
     }
 
-    .over {
+    .image-drop__over {
         border: 4px dashed red !important;
     }
 
-    .image-drop-container {
+    .image-drop__container {
         position: relative;
         width: 100%;
         aspect-ratio: 16 / 9;
         border: 1px solid black;
 
-        .image-drop-overlay {
+        .image-drop__overlay {
             z-index: 0;
             position: absolute;
             width: 100%;
@@ -131,10 +138,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
         }
 
-        .image {
+        .image-drop__image {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -145,7 +151,7 @@
             display: none;
         }
 
-        .image-drop {
+        .image-drop__input {
             position: absolute;
             z-index: 2;
             width: 100%;
@@ -154,29 +160,25 @@
             opacity: .0;
         }
     }
+}
 
-    .submit {
-        margin: auto;
-        padding: 2vmin;
-        font-size: 5vmin;
-        line-height: 6vmin;
-        color: #FFFFFF;
-        background: #799CF4;
-        z-index: 2;
-        box-shadow: 0px 4px 4px #00000040;
-        border: none;
-        margin: 23px auto;
+.submit {
+    margin: auto;
+    padding: 2vmin;
+    font-size: 5vmin;
+    line-height: 6vmin;
+    color: #FFFFFF;
+    background: #799CF4;
+    z-index: 2;
+    box-shadow: 0px 4px 4px #00000040;
+    border: none;
+    margin: 23px auto;
 
-        &:hover {
-            background: #6989d8;
-        }
-
-        &:active {
-            background: #5873b6;
-        }
+    &:hover {
+        background: #6989d8;
     }
 
-    .calculate {
-        margin-left: 0;
+    &:active {
+        background: #5873b6;
     }
 }

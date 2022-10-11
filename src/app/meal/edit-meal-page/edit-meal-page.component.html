@@ -13,9 +13,9 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Time</mat-label>
-                <div class="time">
+                <div class="kcal-time__time">
                     <input matInput type="text" formControlName="time">
-                    <div class="minutes" [ngStyle]="{display: dinnerParams.value['time'] ? 'flex': 'none'}">
+                    <div class="kcal-time__minutes" [ngStyle]="{display: dinnerParams.value['time'] ? 'flex': 'none'}">
                         <span>:00</span>
                     </div>
                 </div>
@@ -33,14 +33,16 @@
             <mat-label>Carbohydrates (gm)</mat-label>
             <input matInput type="text" formControlName="carbohydrates">
         </mat-form-field>
-        <div class="label">Image</div>
-        <div class="image-drop-container" [class]="classForDrop ? 'over' : ''">
-            <div class="image-drop-overlay">
-                <mat-icon>perm_media</mat-icon>
+        <div class="image-drop">
+            <div class="image-drop__label">Image</div>
+            <div class="image-drop__container" [class]="classForDrop ? 'image-drop__over' : ''">
+                <div class="image-drop__overlay">
+                    <mat-icon>perm_media</mat-icon>
+                </div>
+                <img class="image-drop__image" [appImageUpload]="selectedImage" src="" alt="">
+                <input class="image-drop__input" type="file" (change)="onFileSelected($event)" (dragover)="classForDrop = true"
+                    (dragleave)="classForDrop = false" (drop)="!classForDrop = false">
             </div>
-            <img class="image" [appImageUpload]="selectedImage" src="" alt="">
-            <input class="image-drop" type="file" (change)="onFileSelected($event)" (dragover)="classForDrop = true"
-                (dragleave)="classForDrop = false" (drop)="!classForDrop = false">
         </div>
         <button class="submit" type="submit">Save meal</button>
     </form>

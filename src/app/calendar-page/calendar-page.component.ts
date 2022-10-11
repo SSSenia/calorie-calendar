@@ -13,25 +13,23 @@ import { CalendarService } from '../shared/services/calendar.service';
 })
 export class CalendarPageComponent implements OnInit, OnDestroy {
 
-  kcalDays!: number[];
-  time: number[] = [];
+  public kcalDays!: number[];
+  public time: number[] = [];
+  public profile!: IProfile;
+  public days!: IDay[];
+  public dateNow = new Date(this.calendarService.formatDate(new Date()));
+  
+  private subDate!: Subscription;
 
-  profile!: IProfile;
-  days!: IDay[];
-
-  subDate!: Subscription;
-
-  dateNow = new Date(this.calendarService.formatDate(new Date()));
-
-  form: FormGroup = new FormGroup({
+  public form: FormGroup = new FormGroup({
     date: new FormControl(this.dateNow)
-  })
+  });
 
   constructor(
     private calendarService: CalendarService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subDate = this.form.valueChanges.subscribe((value) => {
       this.changeWeek(value.date);
     })
@@ -41,22 +39,22 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
       this.time.push(i);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subDate.unsubscribe();
   }
 
-  changeWeek(newDate: Date) {
+  public changeWeek(newDate: Date) {
     this.days = this.calendarService.getWeek(newDate);
     this.kcalDays = this.days
       .map((day) => day.meals.reduce(
         (sum, current) => sum + +(current ? current.kcal : 0), 0));
   }
 
-  onSwipe(side: string) {
+  public onSwipe(side: string) {
     const oneWeek = ONE_DAY * 7;
     if (side == 'right')
-      this.form.patchValue({ date: new Date(+this.form.value.date - oneWeek) })
+      this.form.patchValue({ date: new Date(+this.form.value.date - oneWeek) });
     if (side == 'left')
-      this.form.patchValue({ date: new Date(+this.form.value.date + oneWeek) })
+      this.form.patchValue({ date: new Date(+this.form.value.date + oneWeek) });
   }
 }
