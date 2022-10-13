@@ -8,7 +8,7 @@ import { hourRange } from 'src/app/shared/validators';
 @Component({
   selector: 'app-edit-meal-page',
   templateUrl: './edit-meal-page.component.html',
-  styleUrls: ['./edit-meal-page.component.scss']
+  styleUrls: ['../input-meal.scss']
 })
 export class EditMealPageComponent implements OnInit {
 
