@@ -46,14 +46,6 @@
             align-items: center;
             width: 100%;
 
-            ::ng-deep .mat-input-element {
-                text-align: right;
-                width: 50%;
-                height: 9vmin;
-                font-size: 4.5vmin;
-                color: #000000;
-                line-height: 5.5vmin;
-            }
 
             .kcal-time__minutes {
                 display: flex;
@@ -66,44 +58,6 @@
                 line-height: 5.5vmin;
             }
         }
-
-        ::ng-deep .mat-form-field {
-            width: 45%;
-        }
-    }
-
-    ::ng-deep .mat-radio-button {
-        font-size: 4.5vmin;
-        margin-bottom: 5vmin;
-    }
-
-    ::ng-deep .mat-radio-button {
-        margin-right: 5vmin;
-    }
-
-    ::ng-deep .mat-form-field-label {
-        font-size: 5vmin;
-    }
-
-    ::ng-deep .mat-form-field-infix {
-        padding: 0;
-        width: auto;
-    }
-
-    ::ng-deep .mat-form-field-flex {
-        padding: .25em .25em 0 .25em;
-        background: none;
-
-        &:hover {
-            background-color: #0000000a;
-        }
-    }
-
-    ::ng-deep .mat-input-element {
-        height: 9vmin;
-        font-size: 4.5vmin;
-        color: #000000;
-        line-height: 5.5vmin;
     }
 }
 

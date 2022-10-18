@@ -3,7 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Risque');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed');
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons+Outlined');
+@import '/src/app/shared/styles-angular-material/calendar-page.scss';
+@import '/src/app/shared/styles-angular-material/input-meal.scss';
 
-body{
+body {
     font-family: 'Roboto';
 }

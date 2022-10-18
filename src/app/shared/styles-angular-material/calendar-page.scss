@@ -1,0 +1,50 @@
+.form-all-params {
+    .kcal-time {
+        .kcal-time__time .mat-input-element {
+            text-align: right;
+            width: 50%;
+            height: 9vmin;
+            font-size: 4.5vmin;
+            color: #000000;
+            line-height: 5.5vmin;
+        }
+
+        .mat-form-field {
+            width: 45%;
+        }
+    }
+
+    .mat-radio-button {
+        font-size: 4.5vmin;
+        margin-bottom: 5vmin;
+    }
+
+    .mat-radio-button {
+        margin-right: 5vmin;
+    }
+
+    .mat-form-field-label {
+        font-size: 5vmin;
+    }
+
+    .mat-form-field-infix {
+        padding: 0;
+        width: auto;
+    }
+
+    .mat-form-field-flex {
+        padding: .25em .25em 0 .25em;
+        background: none;
+
+        &:hover {
+            background-color: #0000000a;
+        }
+    }
+
+    .mat-input-element {
+        height: 9vmin;
+        font-size: 4.5vmin;
+        color: #000000;
+        line-height: 5.5vmin;
+    }
+}
