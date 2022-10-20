@@ -5,13 +5,13 @@ import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
 })
 export class ImageUploadDirective implements OnChanges {
 
-  @Input('appImageUpload') image: any;
+  @Input('appImageUpload') public image: any;
 
   constructor(
     private elementRef: ElementRef
   ) { }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     const image = this.elementRef.nativeElement;
     if (this.image) {
       image.style.background = '#EBEAEA';

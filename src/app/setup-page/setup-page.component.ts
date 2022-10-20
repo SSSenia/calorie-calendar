@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '@auth0/auth0-angular';
 import { IProfile } from '../shared/interfaces/profile';
 import { CalendarService } from '../shared/services/calendar.service';
 
@@ -12,36 +13,36 @@ import { CalendarService } from '../shared/services/calendar.service';
 })
 export class SetupPageComponent implements OnInit {
 
-  genderTypes: string[] = ['Male', 'Female']
-
-  profile$!: BehaviorSubject<IProfile>;
-
-  allParams!: FormGroup;
-
-  validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+  public genderTypes: string[] = ['Male', 'Female']
+  public allParams!: FormGroup;
+  
+  private profile!: IProfile;
+  private validators: ValidatorFn[] = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
   constructor(
     private calendarService: CalendarService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
+    @Inject(DOCUMENT) public document: Document, public auth: AuthService
   ) { }
 
-  ngOnInit(): void {
-    this.profile$ = this.calendarService.getProfile();
-    this.allParams = new FormGroup({
-      bodyParams: new FormGroup({
-        gender: new FormControl(this.profile$.getValue().gender),
-        weight: new FormControl(this.profile$.getValue().weight, this.validators),
-        height: new FormControl(this.profile$.getValue().height, this.validators)
+  public ngOnInit(): void {
+    this.profile = this.calendarService.getProfile();
+    this.allParams = this.formBuilder.group({
+      bodyParams: this.formBuilder.group({
+        gender: [this.profile.gender],
+        weight: [this.profile.weight, this.validators],
+        height: [this.profile.height, this.validators]
       }),
-      minKcal: new FormControl(this.profile$.getValue().minKcal, this.validators),
-      maxKcal: new FormControl(this.profile$.getValue().maxKcal, this.validators),
-      fats: new FormControl(this.profile$.getValue().fats, this.validators),
-      proteins: new FormControl(this.profile$.getValue().proteins, this.validators),
-      carbohydrates: new FormControl(this.profile$.getValue().carbohydrates, this.validators)
+      minKcal: [this.profile.minKcal, this.validators],
+      maxKcal: [this.profile.maxKcal, this.validators],
+      fats: [this.profile.fats, this.validators],
+      proteins: [this.profile.proteins, this.validators],
+      carbohydrates: [this.profile.carbohydrates, this.validators]
     })
   }
 
-  onSubmitAllParams() {
+  public onSubmitAllParams() {
     const bodyParams = this.allParams.value.bodyParams;
     const allParams = this.allParams.value;
     delete allParams.bodyParams;
@@ -49,7 +50,7 @@ export class SetupPageComponent implements OnInit {
     this.router.navigate(['/calendar'])
   }
 
-  calculateRate() {
+  public calculateRate() {
     const bodyParams = this.allParams.value.bodyParams;
     const REE = this.calendarService.calculateREE(bodyParams.weight, bodyParams.height, bodyParams.gender);
 

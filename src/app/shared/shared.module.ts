@@ -7,12 +7,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { ImageUploadDirective } from './directives/image-upload.directive';
+import { SumPipe } from './pipes/sum.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ImageUploadDirective
+    ImageUploadDirective,
+    SumPipe
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { ImageUploadDirective } from './directives/image-upload.directive';
     MatNativeDateModule,
     MatInputModule,
     MatRadioModule,
-    ImageUploadDirective
+    ImageUploadDirective,
+    SumPipe
   ]
 })
 export class SharedModule { }

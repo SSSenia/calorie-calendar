@@ -1,65 +1,62 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 import { IMeal } from 'src/app/shared/interfaces/meal';
 import { CalendarService } from 'src/app/shared/services/calendar.service';
+import { hourRange } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-edit-meal-page',
   templateUrl: './edit-meal-page.component.html',
-  styleUrls: ['./edit-meal-page.component.scss']
+  styleUrls: ['../input-meal.scss']
 })
 export class EditMealPageComponent implements OnInit {
 
-  date!: Date;
-  time!: number;
-  selectedImage: null | string = null;
-  meal$!: Observable<IMeal | undefined>;
-  classForDrop = false;
+  public date!: Date;
+  public time!: number;
+  public selectedImage: null | string = null;
+  public meal!: IMeal | undefined;
+  public classForDrop = false;
 
-  validators = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
+  private validators = [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)];
 
-  dinnerParams: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    kcal: new FormControl('', this.validators),
-    time: new FormControl('', [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/),
-    (control: AbstractControl) => +control.value < 24 && +control.value >= 0 ? null : { passwordStrength: true }]),
-    fats: new FormControl('', this.validators),
-    proteins: new FormControl('', this.validators),
-    carbohydrates: new FormControl('', this.validators)
+  public dinnerParams: FormGroup = this.formBuilder.group({
+    title: ['', [Validators.required]],
+    kcal: ['', this.validators],
+    time: ['', this.validators.concat([hourRange])],
+    fats: ['', this.validators],
+    proteins: ['', this.validators],
+    carbohydrates: ['', this.validators]
   });
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private formBuilder: FormBuilder
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const snapshot = this.route.snapshot.queryParams;
     this.date = new Date(snapshot['date']);
     this.time = snapshot['time'];
     this.dinnerParams.patchValue({ time: this.time });
-    this.meal$ = this.calendarService.getMeal(this.date, this.time).pipe(
-      tap((value) => {
-        if (value) {
-          this.dinnerParams.patchValue(value)
-          this.selectedImage = value.image ? value.image : null;
-        }
-        else this.router.navigate(['/meal', 'new'], this.route.snapshot.queryParams)
-      })
-    );
+    this.meal = this.calendarService.getMeal(this.date, this.time);
+    if (this.meal) {
+      this.dinnerParams.patchValue(this.meal)
+      this.selectedImage = this.meal.image ? this.meal.image : null;
+    }
+    else this.router.navigate(['/meal', 'new'], this.route.snapshot.queryParams)
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (!this.dinnerParams.invalid) {
       this.router.navigate(['/calendar'])
       this.calendarService.setMeal(Object.assign(this.dinnerParams.value, { image: this.selectedImage }), this.date, this.time);
     }
   }
 
-  onFileSelected(event: any) {
+  public onFileSelected(event: any) {
     let file = event.target.files[0];
     let reader = new FileReader();
     if (this.calendarService.isFileImage(file)) {

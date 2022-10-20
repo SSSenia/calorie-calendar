@@ -1,52 +1,51 @@
 <div class="wrapper">
-    <nav>
-        <button class="cancel" [routerLink]="['/calendar']">Cancel</button>
-        <button class="exit">
+    <nav class="navigation">
+        <button class="navigation__cancel" [routerLink]="['/calendar']">Cancel</button>
+        <button class="navigation__exit" (click)="auth.logout({ returnTo: document.location.origin })">
             <mat-icon>exit_to_app</mat-icon>
         </button>
     </nav>
     <h1 class="title">Personal settings</h1>
     <form class="form-all-params" [formGroup]="allParams" (ngSubmit)="onSubmitAllParams()">
         <div class="form-body-params" formGroupName="bodyParams">
-            <label class="choice-gender-label">Gender</label>
-            <mat-radio-group formControlName="gender" aria-labelledby="example-radio-group-label"
-                class="example-radio-group">
-                <mat-radio-button color="primary" class="example-radio-button" *ngFor="let gender of genderTypes"
+            <label class="form-body-params__choice-gender-label">Gender</label>
+            <mat-radio-group class="form-body-params__radio-group" formControlName="gender">
+                <mat-radio-button class="form-body-params__radio-button" color="primary" *ngFor="let gender of genderTypes"
                     [value]="gender">
                     {{gender}}
                 </mat-radio-button>
             </mat-radio-group>
-            <mat-form-field appearance="fill">
+            <mat-form-field class="form-body-params__field" appearance="fill">
                 <mat-label>Weight (kg)</mat-label>
                 <input matInput type="text" formControlName="weight">
             </mat-form-field>
-            <mat-form-field appearance="fill">
+            <mat-form-field class="form-body-params__field" appearance="fill">
                 <mat-label>Height (sm)</mat-label>
                 <input matInput type="text" formControlName="height">
             </mat-form-field>
-            <button class="submit calculate" type="button" (click)="calculateRate()">
+            <button class="submit submit--calculate" type="button" (click)="calculateRate()">
                 Calculate rate for day</button>
         </div>
 
-        <div class="max-min-kcal">
-            <mat-form-field appearance="fill">
+        <div class="form-all-params__max-min-kcal">
+            <mat-form-field class="form-all-params__field" appearance="fill">
                 <mat-label>Min kcal</mat-label>
                 <input matInput type="text" formControlName="minKcal">
             </mat-form-field>
-            <mat-form-field appearance="fill">
+            <mat-form-field class="form-all-params__field" appearance="fill">
                 <mat-label>Max kcal</mat-label>
                 <input matInput type="text" formControlName="maxKcal">
             </mat-form-field>
         </div>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="form-all-params__field"  appearance="fill">
             <mat-label>Fats (gm)</mat-label>
             <input matInput type="text" formControlName="fats">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="form-all-params__field"  appearance="fill">
             <mat-label>Proteins (gm)</mat-label>
             <input matInput type="text" formControlName="proteins">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="form-all-params__field" appearance="fill">
             <mat-label>Carbohydrates (gm)</mat-label>
             <input matInput type="text" formControlName="carbohydrates">
         </mat-form-field>

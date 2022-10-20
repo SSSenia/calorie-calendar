@@ -1,4 +1,3 @@
-import { firstValueFrom } from "rxjs";
 import { CalendarService } from "./calendar.service"
 
 describe('CalendarService', () => {
@@ -9,7 +8,7 @@ describe('CalendarService', () => {
     it('should calculate REE', () => {
         expect(service.calculateREE(76, 196, 'Male')).toBe(1885.92);
     })
-    it('should set and get meal from localstorage', async () => {
+    it('should set and get meal from localstorage', () => {
         const meal: any = {
             title: "test",
             kcal: 4,
@@ -20,7 +19,7 @@ describe('CalendarService', () => {
         const date: Date = new Date(0);
         const hour: number = 0;
         service.setMeal(meal, date, hour);
-        const gettedMeal: any = await firstValueFrom(service.getMeal(date, hour));
+        const gettedMeal: any = service.getMeal(date, hour);
         for (let i in meal) {
             expect(meal[i]).toBe(gettedMeal[i]);
         }
