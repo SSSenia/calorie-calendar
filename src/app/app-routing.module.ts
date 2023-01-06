@@ -9,11 +9,11 @@ import { StartGuard } from './shared/guards/start.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/start', pathMatch: 'full' },
-  { path: 'start', component: StartPageComponent, canMatch: [StartGuard]  },
-  { path: 'calendar', component: CalendarPageComponent, canMatch: [AuthGuard] },
-  { path: 'setup', component: SetupPageComponent, canMatch: [AuthGuard] },
-  { path: 'view-day', component: ViewDayPageComponent, canMatch: [AuthGuard] },
-  { path: 'meal', loadChildren: () => import('./meal/meal.module').then(m => m.MealModule), canMatch: [AuthGuard] },
+  { path: 'start', component: StartPageComponent },
+  { path: 'calendar', component: CalendarPageComponent },
+  { path: 'setup', component: SetupPageComponent },
+  { path: 'view-day', component: ViewDayPageComponent },
+  { path: 'meal', loadChildren: () => import('./meal/meal.module').then(m => m.MealModule) },
   { path: '**', redirectTo: '/calendar' }
 ];
 
